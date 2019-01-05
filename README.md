@@ -7,7 +7,7 @@ Efata is a church information system that consists:
 * Weekly Offering (Not done)
 * Volunteer Scheduling (Not done)
 
-This project is started by using [GBI Rock Tampa] (http://rockministryusa.org/) as a model.
+This project is started by using (GBI Rock Tampa) [http://rockministryusa.org/] as a model.
 
 # Software Specification
 * PHP 7.1
