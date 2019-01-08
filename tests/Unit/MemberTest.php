@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
+use Carbon\Carbon;
 use App\Member;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MemberTest extends TestCase
@@ -25,8 +25,32 @@ class MemberTest extends TestCase
             'status' => 'inactive',
         ]);
 
-        $member = new Member();
+        $this->assertEquals(1,  (new Member)->active()->count());
+    }
 
-        $this->assertEquals(1,  $member->getActiveMember()->count());
+    public function testMemberBirthdayWeekly()
+    {
+        factory(Member::class)->create([
+            'bod' => Carbon::now(),
+        ]);
+
+        factory(Member::class)->create([
+            'bod' => Carbon::parse('last month')->toDateString(),
+        ]);
+
+        $this->assertEquals(1, (new Member())->birthdayThisWeek()->count());
+    }
+
+    public function testMemberBirthdayMonthly()
+    {
+        factory(Member::class)->create([
+            'bod' => Carbon::now(),
+        ]);
+
+        factory(Member::class)->create([
+            'bod' => Carbon::parse('last month')->toDateString(),
+        ]);
+
+        $this->assertEquals(1, (new Member())->birthdayThisMonth()->count());
     }
 }
