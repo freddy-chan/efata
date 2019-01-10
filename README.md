@@ -1,4 +1,4 @@
-Efata - Church Information System [![Build Status](https://img.shields.io/travis/fkresna/efata.svg)](https://travis-ci.org/fkresna/efata)
+# Efata - Church Information System [![Build Status](https://img.shields.io/travis/fkresna/efata.svg)](https://travis-ci.org/fkresna/efata)
 * Member  
   * Management
   * Absence (Not done)
