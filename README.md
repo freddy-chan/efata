@@ -1,4 +1,4 @@
-Efata is a church information system that consists:
+Efata - Church Information System [![Build Status](https://img.shields.io/travis/fkresna/efata.svg)](https://travis-ci.org/fkresna/efata)
 * Member  
   * Management
   * Absence (Not done)
@@ -10,7 +10,7 @@ Efata is a church information system that consists:
 This project is started by using [GBI Rock Tampa](http://rockministryusa.org/) as a model.
 
 # Software Specification
-* PHP 7.1
+* PHP 7.2
 * Laravel 5.7
 
 # Installation
