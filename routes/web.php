@@ -22,3 +22,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/attendance', 'AttendanceController@index')->name('attendance');
 Route::get('/attendance/date', 'AttendanceController@viewByDate')->name('attendanceViewByDate');
 Route::post('/attendance/date', 'AttendanceController@store')->name('storeAttendance');
+
+Route::get('/member', 'MemberController@index')->name('member');
