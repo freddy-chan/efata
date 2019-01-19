@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Attendance;
 use Carbon\Carbon;
 use App\Member;
 use Tests\TestCase;
@@ -52,5 +53,23 @@ class MemberTest extends TestCase
         ]);
 
         $this->assertEquals(1, (new Member())->birthdayThisMonth()->count());
+    }
+
+    public function testAttendance()
+    {
+        $member = factory(Member::class)->create([
+            'bod' => Carbon::now(),
+            'status' => 'active',
+        ]);
+
+        factory(Attendance::class)->create([
+            'member_id' => $member->id,
+            'date' => Carbon::now(),
+        ]);
+
+        $member = Member::find($member->id);
+        $attendance = $member->attendOnDate(Carbon::now()->toDateString())->get();
+
+        self::assertEquals($member->first_name, $attendance[0]->first_name);
     }
 }
