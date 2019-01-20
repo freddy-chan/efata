@@ -32,8 +32,7 @@ class FakeTwilioClient implements TwilioClientInterface
     public function sendText($number, $body) {
         $this->properties['body'] = $body;
         $this->properties['to'] = $number;
+
         return new FakeTwilioResponse($this->properties);
     }
-
-
 }

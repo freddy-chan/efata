@@ -32,14 +32,14 @@ class MemberTest extends TestCase
     public function testMemberBirthdayWeekly()
     {
         factory(Member::class)->create([
-            'bod' => Carbon::now(),
+            'bod' => Carbon::parse('10 years ago')->toDateString(),
         ]);
 
         factory(Member::class)->create([
             'bod' => Carbon::parse('last month')->toDateString(),
         ]);
 
-        $this->assertEquals(1, (new Member())->birthdayThisWeek()->count());
+        $this->assertEquals(1, (new Member())->birthdayThisMonth()->birthdayThisWeek()->count());
     }
 
     public function testMemberBirthdayMonthly()
@@ -53,6 +53,19 @@ class MemberTest extends TestCase
         ]);
 
         $this->assertEquals(1, (new Member())->birthdayThisMonth()->count());
+    }
+
+    public function testMemberBirthdayTomorrow()
+    {
+        factory(Member::class)->create([
+            'bod' => Carbon::now(),
+        ]);
+
+        factory(Member::class)->create([
+            'bod' => Carbon::parse('tomorrow')->toDateString(),
+        ]);
+
+        $this->assertEquals(1, (new Member())->birthdayTomorrow()->count());
     }
 
     public function testAttendance()

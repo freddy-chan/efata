@@ -14,4 +14,9 @@ class Twilio
     {
         return $this->twilioClient->sendtext($number, 'Happy Birthday');
     }
+
+    public function sendReminderText($content, $number)
+    {
+        return $this->twilioClient->sendText($number, $content);
+    }
 }
