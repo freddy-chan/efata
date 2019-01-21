@@ -20,8 +20,8 @@ class Member extends Model
 
     public function scopeBirthdayThisWeek($query)
     {
-        return $query->whereDate('bod', '>', Carbon::parse('last sunday')->day)
-            ->whereDate('bod', '>', Carbon::parse('this sunday')->day);
+        return $query->whereDay('bod', '>', Carbon::parse('last sunday')->day)
+            ->whereDay('bod', '<', Carbon::parse('this sunday')->day);
     }
 
     public function scopeBirthdayThisMonth($query)
@@ -31,7 +31,7 @@ class Member extends Model
 
     public function scopeBirthdayTomorrow($query)
     {
-        return $query->whereDate('bod', Carbon::parse('tomorrow')->toDateString());
+        return $query->whereDay('bod', '=', Carbon::parse('tomorrow')->day);
     }
 
     public function scopeAttendOnDate($query, $date)

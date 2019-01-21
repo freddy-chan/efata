@@ -62,10 +62,10 @@ class MemberTest extends TestCase
         ]);
 
         factory(Member::class)->create([
-            'bod' => Carbon::parse('tomorrow')->toDateString(),
+            'bod' => Carbon::create(1900, Carbon::now()->month, Carbon::now()->addDay()->day)->toDateString(),
         ]);
 
-        $this->assertEquals(1, (new Member())->birthdayTomorrow()->count());
+        $this->assertEquals(1, (new Member())->birthdayThisMonth()->birthdayTomorrow()->count());
     }
 
     public function testAttendance()

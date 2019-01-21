@@ -18,7 +18,7 @@ class SendBirthdayTextReminderTomorrow extends Command
     public function handle()
     {
         $destinations = explode(',', env('REMINDER_TO'));
-        $members = (new Member())->birthdayTomorrow()->get();
+        $members = (new Member())->birthdayThisMonth()->birthdayTomorrow()->get();
         $content = null;
         foreach ($members as $member) {
             $content .= $member->first_name . ' ' . $member->last_name . ' ' . $member->bod . ', ';
