@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Member;
+use App\Twilio\Twilio;
+use App\Twilio\TwilioClient;
 use Illuminate\Console\Command;
 
 class SendBirthdayTextReminderTomorrow extends Command
