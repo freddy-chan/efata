@@ -24,3 +24,8 @@ Route::get('/attendance/date', 'AttendanceController@viewByDate')->name('attenda
 Route::post('/attendance/date', 'AttendanceController@store')->name('storeAttendance');
 
 Route::get('/member', 'MemberController@index')->name('member');
+Route::get('/member/create', 'MemberController@create')->name('createNewMember');
+Route::post('/member', 'MemberController@store')->name('storeNewMember');
+Route::get('/member/{member}', 'MemberController@show')->name('showMember');
+Route::get('/member/{member}/edit', 'MemberController@edit')->name('editMember');
+Route::delete('/member/{member}', 'MemberController@delete')->name('deleteMember');

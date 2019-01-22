@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Member extends Model
 {
     protected $table = 'members';
+    protected $fillable = ['first_name', 'middle_name', 'last_name', 'nickname', 'email', 'bod',
+        'birth_place', 'gender', 'marital_status', 'address', 'address2', 'city', 'state',
+        'country', 'zip_code', 'phone', 'home_phone'];
 
     public function attendance() {
         return $this->hasMany('App\Attendance','member_id', 'id');
