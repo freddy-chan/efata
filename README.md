@@ -1,9 +1,10 @@
 # Efata - Church Information System [![Build Status](https://img.shields.io/travis/fkresna/efata.svg)](https://travis-ci.org/fkresna/efata)
 * Member  
   * Management
-  * Absence (Not done)
-  * Management (Not done)
-  * Automatic Birthday reminder (Not done)
+  * Atendance
+  * Automatic Birthday reminder
+    * Weekly
+    * Daily
 * Weekly Offering (Not done)
 * Volunteer Scheduling (Not done)
 
