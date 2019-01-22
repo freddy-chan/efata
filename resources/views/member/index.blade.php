@@ -5,7 +5,7 @@
 
     <div class="form-group row">
         <div class="col">
-            <a href="">Create New Member</a>
+            <a href="{{ route('createNewMember') }}">Create New Member</a>
         </div>
     </div>
 
