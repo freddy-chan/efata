@@ -32,7 +32,11 @@
                         <td>{{ $member->last_name }}</td>
                         <td>
                             <a href="{{ route("member.edit", [$member->id]) }}">Edit</a> /
-                            <a href="{{ route("member.delete", [$member->id]) }}">Delete</a>
+                            <form class="form-inline" method="POST" action="{{ route("member.delete", [$member->id]) }}">
+                                @csrf
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 </tbody>

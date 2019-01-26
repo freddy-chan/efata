@@ -141,4 +141,16 @@ class MemberTest extends TestCase
         $response->assertStatus(302);
         $response->assertLocation(route('member'));
     }
+
+    public function testDeleteMember()
+    {
+        $user = factory(User::class)->create();
+
+        $member = factory(Member::class)->create();
+
+        $this->actingAs($user)
+            ->delete(route('member.delete', [$member]));
+
+        $this->assertEquals(null, Member::find($member->id));
+    }
 }

@@ -67,7 +67,12 @@ class MemberController extends Controller
 
     public function delete(Member $member)
     {
+        if ($member) {
+            $member->delete();
+            return redirect(route('member'))->with('status', 'Thank you, the member is deleted.');
+        }
 
+        return redirect(route('member'));
     }
 
     public function update(Member $member, Request $request)
