@@ -92,7 +92,7 @@ class MemberTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-                    ->post(route('storeNewMember'), [
+                    ->post(route('member.store'), [
                         'first_name' => 'John',
                         'middle_name' => 'Kelvin',
                         'last_name' => 'Doe',
@@ -117,6 +117,28 @@ class MemberTest extends TestCase
         $this->assertEquals('John', $member->first_name);
         $this->assertEquals('active', $member->status);
         $this->assertEquals(null, $member->address2);
-        $response->assertStatus(200);
+        $response->assertStatus(302);
+        $response->assertLocation(route('member'));
+    }
+
+    public function testUpdateMember()
+    {
+        $user = factory(User::class)->create();
+
+        $member = factory(Member::class)->create();
+
+        $response = $this->actingAs($user)
+            ->put(route('member.update', [$member]), [
+                'first_name' => 'Kevin',
+                'last_name' => 'Robert',
+                'gender' => 'M',
+                'marital_status' => 'single',
+            ]);
+        $member = Member::where('first_name', 'Kevin')->first();
+
+        $this->assertEquals('Kevin', $member->first_name);
+        $this->assertEquals('Robert', $member->last_name);
+        $response->assertStatus(302);
+        $response->assertLocation(route('member'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Member;
 use Illuminate\Http\Request;
 
@@ -48,6 +49,8 @@ class MemberController extends Controller
                 'home_phone' => $request->input('home_phone')
             ]);
         }
+
+        return redirect(route('member'))->with('status', 'Thank you, the information is saved.');
     }
 
     public function show(Member $member)
@@ -55,13 +58,43 @@ class MemberController extends Controller
 
     }
 
-    public function edit(Member $member, Request $request)
+    public function edit(Member $member)
     {
-
+        return view('member.edit', [
+            'member' => Member::find($member)->first(),
+        ]);
     }
 
     public function delete(Member $member)
     {
 
+    }
+
+    public function update(Member $member, Request $request)
+    {
+        if ($member) {
+            $member->first_name = $request->input('first_name');
+            $member->middle_name = $request->input('middle_name');
+            $member->last_name = $request->input('last_name');
+            $member->nickname = $request->input('nickname');
+            $member->email = $request->input('email');
+            $member->bod = $request->input('bod');
+            $member->birth_place = $request->input('birth_place');
+            $member->gender = $request->input('gender');
+            $member->marital_status = $request->input('marital_status');
+            $member->address = $request->input('address');
+            $member->address2 = $request->input('address2');
+            $member->city = $request->input('city');
+            $member->state = $request->input('state');
+            $member->country = $request->input('country');
+            $member->zip_code = $request->input('zip_code');
+            $member->phone = $request->input('phone');
+            $member->home_phone = $request->input('home_phone');
+            $member->save();
+
+            return redirect(route('member'))->with('status', 'Thank you, the information is saved.');
+        }
+
+        return redirect(route('member'));
     }
 }
