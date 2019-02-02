@@ -24,7 +24,7 @@ class Member extends Model
     public function scopeBirthdayThisWeek($query)
     {
         return $query->whereDay('bod', '>', Carbon::parse('last sunday')->day)
-            ->whereDay('bod', '<', Carbon::parse('this sunday')->day);
+            ->orWhereDay('bod', '<', Carbon::parse('this sunday')->day);
     }
 
     public function scopeBirthdayThisMonth($query)
