@@ -17,29 +17,59 @@
 
     <div class="row">
         <div class="col">
-            <table class="table">
+            <table class="table" style="width:70%;">
                 <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Action</th>
-                    </tr>
+                <tr>
+                    <th width="49%">First Name</th>
+                    <th width="49%">Last Name</th>
+                    <th colspan="3" width="2%" class="text-center">Action</th>
+                </tr>
                 </thead>
                 @foreach($members as $member)
-                <tbody>
+                    <tbody>
                     <tr>
-                        <td>{{ $member->first_name }}</td>
-                        <td>{{ $member->last_name }}</td>
+                        <td class="align-middle">{{ $member->first_name }}</td>
+                        <td class="align-middle">{{ $member->last_name }}</td>
+                        <td class="col-1">
+                            <form method="GET" action="{{ route("member.edit", [$member->id]) }}">
+                                @csrf
+                                <button class="btn-link btn" type="submit">Edit</button>
+                            </form>
+                        </td>
                         <td>
-                            <a href="{{ route("member.edit", [$member->id]) }}">Edit</a> /
-                            <form class="form-inline" method="POST" action="{{ route("member.delete", [$member->id]) }}">
+                            <form method="POST" action="{{ route("member.delete", [$member->id]) }}">
                                 @csrf
                                 <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit">Delete</button>
+                                <button class="btn btn-link" type="submit">Delete</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ route("member.changeStatus", [$member->id]) }}">
+                                <div class="btn-group" role="group">
+                                    @csrf
+                                    @if($member->status == "active")
+                                        <button type="submit" name="status" id="status" class="btn btn-secondary active"
+                                                value="active"> Active
+                                        </button>
+                                    @else
+                                        <button type="submit" name="status" id="status" class="btn btn-secondary"
+                                                value="active"> Active
+                                        </button>
+                                    @endif
+                                    @if($member->status == "inactive")
+                                        <button type="submit" name="status" id="status" value="inactive"
+                                                class="btn btn-secondary active"> Inactive
+                                        </button>
+                                    @else
+                                        <button type="submit" name="status" id="status" value="inactive"
+                                                class="btn btn-secondary"> Inactive
+                                        </button>
+                                    @endif
+                                </div>
                             </form>
                         </td>
                     </tr>
-                </tbody>
+                    </tbody>
                 @endforeach
             </table>
         </div>

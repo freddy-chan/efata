@@ -28,5 +28,7 @@ Route::get('/member/create', 'MemberController@create')->name('member.create');
 Route::post('/member', 'MemberController@store')->name('member.store');
 Route::get('/member/{member}', 'MemberController@show')->name('member.show');
 Route::get('/member/{member}/edit', 'MemberController@edit')->name('member.edit');
+Route::post('/member/{member}/changeStatus', 'MemberController@changeStatus')->name('member.changeStatus');
 Route::delete('/member/{member}', 'MemberController@delete')->name('member.delete');
 Route::put('/member/{member}', 'MemberController@update')->name('member.update');
+

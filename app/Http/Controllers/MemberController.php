@@ -102,4 +102,14 @@ class MemberController extends Controller
 
         return redirect(route('member'));
     }
+
+    public function changeStatus(Member $member, Request $request)
+    {
+        if ($member && $request->has('status')) {
+            $member->status = $request->input('status');
+            $member->save();
+        }
+
+        return back();
+    }
 }

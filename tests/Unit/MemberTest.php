@@ -153,4 +153,18 @@ class MemberTest extends TestCase
 
         $this->assertEquals(null, Member::find($member->id));
     }
+
+    public function testChangeStatus()
+    {
+        $user = factory(User::class)->create();
+
+        $member = factory(Member::class)->create();
+
+        $this->actingAs($user)
+            ->post(route('member.changeStatus', [$member]), [
+                'status' => 'inactive',
+            ]);
+
+        $this->assertEquals('inactive', Member::find($member->id)->status);
+    }
 }
