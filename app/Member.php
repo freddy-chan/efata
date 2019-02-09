@@ -43,4 +43,10 @@ class Member extends Model
             ->join('attendances', 'members.id', '=', 'attendances.member_id')
             ->whereDate('attendances.date', $date);
     }
+
+    public function scopeSortBasedLastNameAndHideInactive($query)
+    {
+        return $query->where('status', '=', 'active')
+            ->orderBy('last_name');
+    }
 }

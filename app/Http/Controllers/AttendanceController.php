@@ -17,14 +17,14 @@ class AttendanceController extends Controller
     public function index()
     {
         return view('attendance', [
-            'members' => Member::all(),
+            'members' => (new Member())->sortBasedLastNameAndHideInactive()->get(),
         ]);
     }
 
     public function viewByDate(Request $request)
     {
         return view('attendanceByDate', [
-            'members' => Member::all(),
+            'members' => (new Member())->sortBasedLastNameAndHideInactive()->get(),
             'date' => $request->input('date'),
             'attendance' => Attendance::memberThatAttend($request->input('date'))->get(),
         ]);
