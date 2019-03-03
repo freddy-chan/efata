@@ -30,19 +30,6 @@ class MemberTest extends TestCase
         $this->assertEquals(1,  (new Member)->active()->count());
     }
 
-    public function testMemberBirthdayWeekly()
-    {
-        factory(Member::class)->create([
-            'bod' => Carbon::parse('10 years ago')->toDateString(),
-        ]);
-
-        factory(Member::class)->create([
-            'bod' => Carbon::parse('last month')->toDateString(),
-        ]);
-
-        $this->assertEquals(1, (new Member())->birthdayThisMonth()->birthdayThisWeek()->count());
-    }
-
     public function testMemberBirthdayMonthly()
     {
         factory(Member::class)->create([

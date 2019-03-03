@@ -2,9 +2,7 @@
 * Member  
   * Management
   * Atendance
-  * Automatic Birthday reminder
-    * Weekly
-    * Daily
+  * Automatic Daily Birthday reminder
 * Weekly Offering (Not done)
 * Volunteer Scheduling (Not done)
 
@@ -12,7 +10,7 @@ This project is started by using [GBI Rock Tampa](http://rockministryusa.org/) a
 
 # Software Specification
 * PHP 7.2
-* Laravel 5.7
+* Laravel 5.8
 
 # Installation
 * composer install

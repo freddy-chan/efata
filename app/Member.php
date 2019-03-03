@@ -21,12 +21,6 @@ class Member extends Model
         return $query->where('status', 'active');
     }
 
-    public function scopeBirthdayThisWeek($query)
-    {
-        return $query->whereDay('bod', '>', Carbon::parse('last sunday')->day)
-            ->orWhereDay('bod', '<', Carbon::parse('this sunday')->day);
-    }
-
     public function scopeBirthdayThisMonth($query)
     {
         return $query->whereMonth('bod', '=', Carbon::now()->month);
