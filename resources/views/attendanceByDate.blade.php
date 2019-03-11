@@ -15,7 +15,6 @@
             <label for="date" class="col-4">Date: {{ $date }}</label>
             <input type="hidden" name="date" id="date" value="{{ $date }}">
         </div>
-{{--        {{ dd($attendance[0]) }}--}}
         @foreach($members as $member)
             <div class="form-check row">
                 <label for="members" class="col-2"> {{ $member->first_name }} {{ $member->last_name }}</label>

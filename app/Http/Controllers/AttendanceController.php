@@ -18,6 +18,7 @@ class AttendanceController extends Controller
     {
         return view('attendance', [
             'members' => (new Member())->sortBasedLastNameAndHideInactive()->get(),
+            'summary' => (new Attendance())->summary(),
         ]);
     }
 

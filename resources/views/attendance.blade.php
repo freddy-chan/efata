@@ -15,4 +15,22 @@
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    <br/>
+    <h2>Attendance Summary</h2>
+    <table class="table" style="width:70%">
+        <tr>
+            <td>Date</td>
+            <td>Male</td>
+            <td>Female</td>
+            <td>Total</td>
+        </tr>
+    @foreach($summary as $key => $value)
+        <tr>
+            <td>{{ $key }}</td>
+            <td>{{ $value['M'] }}</td>
+            <td>{{ $value['F'] }}</td>
+            <td>{{ $value['total'] }}</td>
+        </tr>
+    @endforeach
+    </table>
 @endsection
