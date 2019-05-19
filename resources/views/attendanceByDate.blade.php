@@ -12,17 +12,17 @@
     <form action="{{ route('attendanceViewByDate') }}" method="post">
         {{ csrf_field() }}
         <div class="form-group row">
-            <label for="date" class="col-4">Date: {{ $date }}</label>
+            <label for="date" class="col-6">Date: {{ $date }}</label>
             <input type="hidden" name="date" id="date" value="{{ $date }}">
         </div>
         @foreach($members as $member)
             <div class="form-check row">
-                <label for="members" class="col-2"> {{ $member->first_name }} {{ $member->last_name }}</label>
+                <label for="members" class="col-8"> {{ $member->first_name }} {{ $member->last_name }}</label>
                 @if($attendance->contains('member_id', $member->id))
-                    <input type="checkbox" class="form-check-input" id="members" name="members[]"
+                    <input type="checkbox" class="form-check-input col-4" id="members" name="members[]"
                            value="{{ $member->id }}" checked>
                 @else
-                    <input type="checkbox" class="form-check-input" id="members" name="members[]"
+                    <input type="checkbox" class="form-check-input col-2" id="members" name="members[]"
                            value="{{ $member->id }}">
                 @endif
             </div>
