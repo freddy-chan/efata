@@ -1,7 +1,10 @@
 language: php
 
 php:
-- 7.2
+- 7.3
+
+addons:
+  mysql: '5.7'
 
 before_script:
 - cp .env.travis .env
