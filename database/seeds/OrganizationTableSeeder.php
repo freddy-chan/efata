@@ -1,5 +1,6 @@
 <?php
 
+use App\Organization;
 use Illuminate\Database\Seeder;
 
 class OrganizationTableSeeder extends Seeder
@@ -11,12 +12,12 @@ class OrganizationTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('organizations')->insert([
+        Organization::create([
             'name' => 'Organization 1',
             'address' => '212 Baker Street',
             'city' => 'London',
             'province' => 'Florida',
-            'postalCode' => '12345',
+            'postal_code' => '12345',
             'country' => 'Indonesia',
         ]);
     }

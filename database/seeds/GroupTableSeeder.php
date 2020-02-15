@@ -1,6 +1,7 @@
 <?php
 
 use App\Group;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class GroupTableSeeder extends Seeder
@@ -12,21 +13,19 @@ class GroupTableSeeder extends Seeder
      */
     public function run()
     {
-        $groupData = [
-            ['name' => 'Operasional', 'orgId' => 1],
-            ['name' => 'Perpuluhan', 'orgId' => 1],
-            ['name' => 'Pers. Umum', 'orgId' => 1],
-            ['name' => 'Diakonia', 'orgId' => 1],
-            ['name' => 'PP/IT', 'orgId' => 1],
-            ['name' => 'Rocky', 'orgId' => 1],
-            ['name' => 'Rocket', 'orgId' => 1],
-            ['name' => 'KGC', 'orgId' => 1],
-            ['name' => 'Royal', 'orgId' => 1],
-            ['name' => 'MWM', 'orgId' => 1],
-            ['name' => 'Rockmen', 'orgId' => 1],
-            ['name' => 'Senior', 'orgId' => 1],
-        ];
-
-        Group::create($groupData);
+        Group::create(['name' => 'Operasional', 'orgId' => 1]);
+        Group::create(['name' => 'Perpuluhan', 'orgId' => 1]);
+        Group::create(['name' => 'Pers. Umum', 'orgId' => 1]);
+        Group::create(['name' => 'Diakonia', 'orgId' => 1]);
+        Group::create(['name' => 'Misi', 'orgId' => 1]);
+        Group::create(['name' => 'Pembangunan', 'orgId' => 1]);
+        Group::create(['name' => 'PP/IT', 'orgId' => 1]);
+        Group::create(['name' => 'Rocky', 'orgId' => 1]);
+        Group::create(['name' => 'Rocket', 'orgId' => 1]);
+        Group::create(['name' => 'KGC', 'orgId' => 1]);
+        Group::create(['name' => 'Royal', 'orgId' => 1]);
+        Group::create(['name' => 'MWM', 'orgId' => 1]);
+        Group::create(['name' => 'Rockmen', 'orgId' => 1]);
+        Group::create(['name' => 'Senior', 'orgId' => 1]);
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Group;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -13,17 +15,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Group::select('name', 'orgId')->get();
     }
 
     /**
@@ -35,6 +27,17 @@ class GroupController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return Group::select('id','name')->where('orgId',$id)->get();
     }
 
     /**
