@@ -17,9 +17,11 @@ class CreateSubgroupsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->unsignedBigInteger('parentGroupId');
+            $table->unsignedBigInteger('orgId');
             $table->timestamps();
 
             $table ->foreign('parentGroupId')->references('id')->on('groups');
+            $table->foreign('orgId')->references('id')->on('organizations');
         });
     }
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\GroupController;
+use App\Http\Controllers\API\SubGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/groups/{id}', 'API\GroupController@show');
+Route::get('/subgroups/{id}', 'API\SubGroupController@show');
