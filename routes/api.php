@@ -21,3 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/groups/{id}', 'API\GroupController@show');
 Route::get('/subgroups/{id}', 'API\SubGroupController@show');
+Route::post('/transaction', 'API\TransactionController@store');
+Route::get('/accounts/{id}', 'API\AccountController@show');
+Route::post('/accounts/', 'API\AccountController@store');
