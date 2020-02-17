@@ -26,7 +26,6 @@ class CreateTransactionsTable extends Migration
             $table->timestamps();
 
             $table->foreign('groupId')->references('id')->on('groups');
-            $table->foreign('subGroupId')->references('id')->on('subGroups');
             $table->foreign('accountId')->references('id')->on('accounts');
             $table->foreign('orgId')->references('id')->on('organizations');
         });
