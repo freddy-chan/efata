@@ -27,12 +27,12 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        Transaction::insert([
-            'groupId' => $request->get('group'),
-            'subGroupId' => $request->get('subGroupId'),
-            'accountId' => $request->get('accountId'),
-
-        ]);
+//        Transaction::insert([
+//            'groupId' => $request->get('group'),
+//            'subGroupId' => $request->get('subGroupId'),
+//            'accountId' => $request->get('accountId'),
+//
+//        ]);
         return response(['content'=>'test'],200);
     }
 

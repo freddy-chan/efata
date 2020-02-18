@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\API\GroupController;
-use App\Http\Controllers\API\SubGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +18,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/groups/{id}', 'API\GroupController@show');
+Route::post('/group', 'API\GroupController@store');
+Route::delete('/group/{id}', 'API\GroupController@destroy');
+
 Route::get('/subgroups/{id}', 'API\SubGroupController@show');
+Route::post('/subgroup', 'API\SubGroupController@store');
+Route::delete('/subgroup/{id}', 'API\SubGroupController@destroy');
+
 Route::post('/transaction', 'API\TransactionController@store');
 Route::get('/accounts/{id}', 'API\AccountController@show');
 Route::post('/accounts/', 'API\AccountController@store');

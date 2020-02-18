@@ -26,7 +26,16 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            Group::insert([
+                'orgId' => $request->get('orgId'),
+                'name' => $request->get('name'),
+            ]);
+
+            return response('ok', 200);
+        } catch(Exception $e) {
+            return response($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -60,6 +69,12 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Group::where('id', $id)->delete();
+
+            return response('ok', 200);
+        } catch(Exception $e) {
+            return response($e->getMessage(), 500);
+        }
     }
 }

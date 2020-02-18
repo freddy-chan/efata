@@ -15,7 +15,7 @@ class SubGroupController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -26,7 +26,17 @@ class SubGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            SubGroup::insert([
+                'orgId' => $request->get('orgId'),
+                'parentGroupId' => $request->get('parentGroupId'),
+                'name' => $request->get('name'),
+            ]);
+
+            return response('ok', 200);
+        } catch(Exception $e) {
+            return response($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -60,6 +70,12 @@ class SubGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            SubGroup::where('id', $id)->delete();
+
+            return response('ok', 200);
+        } catch(Exception $e) {
+            return response($e->getMessage(), 500);
+        }
     }
 }
