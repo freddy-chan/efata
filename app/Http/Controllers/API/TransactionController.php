@@ -27,13 +27,26 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-//        Transaction::insert([
-//            'groupId' => $request->get('group'),
-//            'subGroupId' => $request->get('subGroupId'),
-//            'accountId' => $request->get('accountId'),
-//
-//        ]);
-        return response(['content'=>'test'],200);
+        try {
+            Log::info($request);
+            $transaction = new Transaction();
+            $transaction->groupId = $request->get('group');
+            $transaction->subGroupId = $request->get('subgroup');
+            $transaction->fromAccountId = $request->get('fromAccount');
+            $transaction->toAccountId = $request->get('toAccount');
+            $transaction->description = $request->get('keterangan');
+            $transaction->currency = $request->get('currency');
+            $transaction->amount = $request->get('amount');
+            $transaction->orgId = $request->get('orgId');
+            $transaction->transactionDate = $request->get('tanggal');
+            $transaction->type = $transaction->transactionType($request->get('type'));
+            $transaction->userId = $request->get('user');
+            $transaction->save();
+
+            return response('ok', 200);
+        } catch(Exception $e) {
+            return response($e->getMessage(), 500);
+        }
     }
 
     /**
