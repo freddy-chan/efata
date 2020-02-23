@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Group;
+use App\SubGroup;
 use Log;
+use App\Account;
 use App\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -28,7 +31,6 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         try {
-            Log::info($request);
             $transaction = new Transaction();
             $transaction->groupId = $request->get('group');
             $transaction->subGroupId = $request->get('subgroup');
@@ -52,12 +54,36 @@ class TransactionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $groupId
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showBasedOnGroup($groupId)
     {
-        //
+        $transactions = Transaction::where('groupId', $groupId)->get();
+
+        return $this->setFromToAccountGroupName($transactions,  $transactions[0]->orgId);
+    }
+
+    public function showBasedOnOrganization($orgId)
+    {
+        $transactions = Transaction::where('orgId', $orgId)->get();
+
+        return $this->setFromToAccountGroupName($transactions, $orgId);
+    }
+
+    private function setFromToAccountGroupName($transactions, $orgId) {
+        $accounts = Account::where('orgId', $orgId)->get();
+        $groups = Group::where('orgId', $orgId)->get();
+        $subGroups = SubGroup::where('orgId', $orgId)->get();
+
+        for($i = 0; $i < count($transactions) ; $i++) {
+            $transactions[$i]->fromAccountName = $accounts[$transactions[$i]->fromAccountId - 1]->name;
+            $transactions[$i]->toAccountName = $accounts[$transactions[$i]->toAccountId - 1]->name;
+            $transactions[$i]->groupName = $groups[$transactions[$i]->groupId - 1]->name;
+            $transactions[$i]->subGroupName = $subGroups[$transactions[$i]->subGroupId - 1]->name;
+        }
+
+        return $transactions;
     }
 
     /**

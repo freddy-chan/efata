@@ -26,5 +26,8 @@ Route::post('/subgroup', 'API\SubGroupController@store');
 Route::delete('/subgroup/{id}', 'API\SubGroupController@destroy');
 
 Route::post('/transaction', 'API\TransactionController@store');
+Route::get('/transactions/group/{id}', 'API\TransactionController@showBasedOnGroup');
+Route::get('/transactions/org/{id}', 'API\TransactionController@showBasedOnOrganization');
+
 Route::get('/accounts/{id}', 'API\AccountController@show');
 Route::post('/accounts/', 'API\AccountController@store');
