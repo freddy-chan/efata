@@ -1,5 +1,6 @@
 <?php
 
+use App\Account;
 use Illuminate\Database\Seeder;
 
 class AccountTableSeeder extends Seeder
@@ -11,11 +12,13 @@ class AccountTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i=0;$i<3;$i++) {
-            DB::table('accounts')->insert([
-                'name' => 'account ' . $i,
-                'orgId' => 1,
-            ]);
-        }
+        Account::create(['name' => 'BCA 8006', 'orgId' => 1]);
+        Account::create(['name' => 'BCA 8600', 'orgId' => 1]);
+        Account::create(['name' => 'Kas Kecil Rocky', 'orgId' => 1]);
+        Account::create(['name' => 'Kas Kecil Rocket', 'orgId' => 1]);
+        Account::create(['name' => 'Kas Kecil MWM', 'orgId' => 1]);
+        Account::create(['name' => 'Kas Kecil KGC', 'orgId' => 1]);
+        Account::create(['name' => 'Kas Kecil PW/IT', 'orgId' => 1]);
+        Account::create(['name' => 'Kas Kecil Konsumsi', 'orgId' => 1]);
     }
 }

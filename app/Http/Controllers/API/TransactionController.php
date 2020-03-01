@@ -71,6 +71,15 @@ class TransactionController extends Controller
         return $this->setFromToAccountGroupName($transactions, $orgId);
     }
 
+    public function showBasedOnOrganizationDateRange($orgId, $from, $to)
+    {
+        $transactions = Transaction::where('orgId', $orgId)
+            ->whereBetween('transactionDate', [$from, $to])
+            ->get();
+
+        return $this->setFromToAccountGroupName($transactions, $orgId);
+    }
+
     private function setFromToAccountGroupName($transactions, $orgId) {
         $accounts = Account::where('orgId', $orgId)->get();
         $groups = Group::where('orgId', $orgId)->get();

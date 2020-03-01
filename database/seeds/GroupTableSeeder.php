@@ -1,7 +1,6 @@
 <?php
 
 use App\Group;
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class GroupTableSeeder extends Seeder

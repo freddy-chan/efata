@@ -48,7 +48,9 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $account = Account::find($id);
+        $account->name = $request->name;
+        $account->save();
     }
 
     /**
