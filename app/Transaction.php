@@ -13,5 +13,7 @@ class Transaction extends Model
             return 'income';
         else if($type == 'pengeluaran')
             return 'expenses';
+        else if ($type == 'income' || $type == 'expenses')
+            return $type;
     }
 }
