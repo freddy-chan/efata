@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use Log;
 use App\Account;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -25,7 +26,11 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::debug($request);
+        return Account::create($request->only([
+            'name',
+            'orgId'
+        ]));
     }
 
     /**
@@ -48,7 +53,7 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $account = Account::find($id);
+        $account = Account::findOrFail($id);
         $account->name = $request->name;
         $account->save();
     }
@@ -61,6 +66,6 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Account::findOrFail($id)->delete();
     }
 }

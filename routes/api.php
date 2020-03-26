@@ -35,3 +35,4 @@ Route::get('/transactions/org/{id}', 'API\TransactionController@showBasedOnOrgan
 Route::get('/accounts/{id}', 'API\AccountController@show');
 Route::post('/accounts/{id}', 'API\AccountController@update');
 Route::post('/accounts/', 'API\AccountController@store');
+Route::delete('/accounts/{id}', 'API\AccountController@destroy');

@@ -14,7 +14,7 @@ class CreateSubgroupsTable extends Migration
     public function up()
     {
         Schema::create('subgroups', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->unsignedBigInteger('parentGroupId');
             $table->unsignedBigInteger('orgId');
