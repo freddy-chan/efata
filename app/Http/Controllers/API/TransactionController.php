@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Group;
 use App\SubGroup;
+use Carbon\Carbon;
 use Log;
 use App\Account;
 use App\Transaction;
@@ -61,16 +62,52 @@ class TransactionController extends Controller
 
     public function showBasedOnGroup($groupId)
     {
-        $transactions = Transaction::where('groupId', $groupId)->get();
+        $transactions = Transaction::where('groupId', $groupId)
+            ->orderBy('transactionDate')
+            ->get();
 
         return $this->setFromToAccountGroupName($transactions,  $transactions[0]->orgId);
     }
 
     public function showBasedOnOrganization($orgId)
     {
-        $transactions = Transaction::where('orgId', $orgId)->get();
+        $transactions = Transaction::where('orgId', $orgId)
+            ->orderBy('transactionDate')
+            ->get();
 
         return $this->setFromToAccountGroupName($transactions, $orgId);
+    }
+
+    public function showMonthly(Request $request, $orgId)
+    {
+        $transactions = Transaction::select('transactionDate', 'description', 'type', 'amount')
+            ->where('orgId', $orgId)
+            ->whereBetween('transactionDate', [
+                new Carbon($request->get('fromMonth')),
+                new Carbon($request->get('toMonth'))
+            ])
+            ->orderBy('transactionDate')
+            ->get();
+
+        $transactions = $transactions->map(function ($transaction) {
+           if($transaction->type == 'income') {
+               $amountIncome = $transaction->amount;
+               $amountExpenses = 0;
+           } else {
+               $amountIncome = 0;
+               $amountExpenses = $transaction->amount;
+           }
+
+           return [
+                'transactionDate' => $transaction->transactionDate,
+                'description' => $transaction->description,
+                'debit' => $amountIncome,
+                'credit' => $amountExpenses,
+                'type' => $transaction->type
+           ];
+        });
+
+        return $transactions;
     }
 
     public function showBasedOnOrganizationDateRange($orgId, $from, $to)
