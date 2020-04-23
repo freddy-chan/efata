@@ -78,6 +78,49 @@ class TransactionController extends Controller
         return $this->setFromToAccountGroupName($transactions, $orgId);
     }
 
+    public function showWeekly(Request $request, $orgId)
+    {
+        $fromDate = new Carbon($request->get('fromDate'));
+        $toDate = new Carbon($request->get('toDate'));
+        $arr = [];
+        $subGroups = SubGroup::where('orgId', $orgId)->get();
+//        dd($fromDate);
+        foreach ($subGroups as $subGroup) {
+            $item['description'] = $subGroup->name;
+            $count = 1;
+
+            do {
+//                dump( $fromDate->startOfWeek()->toDateString());
+                $transactions = Transaction::select('groupId', 'subGroupId', 'type', 'amount')
+                    ->whereBetween('transactionDate', [
+                        $fromDate->startOfWeek()->format('Y-m-d'),
+                        $fromDate->endOfWeek()->format('Y-m-d')
+                    ])
+                    ->where('subGroupId', $subGroup->id)
+                    ->orderBy('groupId')
+                    ->get();
+
+                $item['debit' . $count] = 0;
+                $item['credit' . $count] = 0;
+
+                foreach ($transactions as $transaction) {
+//                    echo $count . ' ';
+                    if ($transaction->type == 'income')
+                        $item['debit' . $count] += $transaction->amount;
+                    else
+                        $item['credit' . $count] += $transaction->amount;
+                }
+                $count++;
+                $fromDate = $fromDate->addDays(1);
+            } while ($fromDate->diffInDays($toDate, false) > 0);
+            $arr['items'][] = $item;
+//            $item = [];
+            $fromDate = $fromDate->subDay(7*($count-1));
+        }
+//        dd("stop");
+        return $arr;
+    }
+
     public function showMonthly(Request $request, $orgId)
     {
         $transactions = Transaction::select('transactionDate', 'description', 'type', 'amount')

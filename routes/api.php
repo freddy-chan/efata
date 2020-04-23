@@ -32,6 +32,7 @@ Route::get('/transactions/group/{id}', 'API\TransactionController@showBasedOnGro
 Route::get('/transactions/{id}', 'API\TransactionController@show');
 Route::get('/transactions/org/{id}', 'API\TransactionController@showBasedOnOrganization');
 Route::get('/transactions/org/{id}/monthly', 'API\TransactionController@showMonthly');
+Route::get('/transactions/org/{id}/weekly', 'API\TransactionController@showWeekly');
 
 Route::get('/accounts/{id}', 'API\AccountController@show');
 Route::post('/accounts/{id}', 'API\AccountController@update');
