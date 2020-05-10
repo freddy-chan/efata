@@ -2,16 +2,15 @@
 
 namespace App\Console\Commands;
 
+use Nexmo\Laravel\Facade\Nexmo;
 use App\Member;
-use App\Twilio\Twilio;
-use App\Twilio\TwilioClient;
 use Illuminate\Console\Command;
 
-class SendBirthdayTextReminderTomorrow extends Command
+class SendBirthdayTextReminder extends Command
 {
-    protected $signature = 'efata:sendBirthdayTextReminderTomorrow';
+    protected $signature = 'efata:sendBirthdayTextReminder';
 
-    protected $description = 'Send birthday text reminder that birthday tomorrow';
+    protected $description = 'Send birthday text reminder';
 
     public function __construct()
     {
@@ -21,16 +20,19 @@ class SendBirthdayTextReminderTomorrow extends Command
     public function handle()
     {
         $destinations = explode(',', env('REMINDER_TO'));
-        $members = (new Member())->birthdayThisMonth()->birthdayTomorrow()->get();
+        $members = (new Member())->birthdayThisMonth()->birthdayToday()->get();
         $content = null;
         foreach ($members as $member) {
             $content .= $member->first_name . ' ' . $member->last_name . ' ' . $member->bod . ', ';
         }
 
         if($content) {
-            $twilio = new Twilio(new TwilioClient());
             foreach ($destinations as $to) {
-                $twilio->sendReminderText($content, $to);
+                Nexmo::message()->send([
+                    'to' => $to,
+                    'from' => config('nexmo.phone_number'),
+                    'text' => $content
+                ]);
             }
         }
     }

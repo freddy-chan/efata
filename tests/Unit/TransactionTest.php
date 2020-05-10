@@ -25,6 +25,12 @@ class TransactionTest extends TestCase
         ]);
 
         factory(Transaction::class, 'income')->create([
+            'amount' => 101,
+            'type' => 'income',
+            'transactionDate' => (new Carbon($fromDate))->addDays(7)->startOfWeek()->toDateString()
+        ]);
+
+        factory(Transaction::class, 'income')->create([
             'amount' => 200,
             'type' => 'income'
         ]);
@@ -55,6 +61,7 @@ class TransactionTest extends TestCase
         $response = $this->get('/api/transactions/org/1/weekly?fromDate=' . $fromDate . '&toDate=' . $toDate);
         $content = json_decode($response->content(), true);
         $this->assertEquals($content['items'][0]['debit1'], 100);
+        $this->assertEquals($content['items'][1]['debit2'], 100);
         $this->assertEquals($content['items'][0]['debit3'], 200);
         $this->assertEquals($content['items'][1]['debit3'], 303);
         $this->assertEquals($content['items'][0]['credit1'], 300);

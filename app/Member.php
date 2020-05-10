@@ -31,6 +31,11 @@ class Member extends Model
         return $query->whereDay('bod', '=', Carbon::parse('tomorrow')->day);
     }
 
+    public function scopeBirthdayToday($query)
+    {
+        return $query->whereDay('bod', '=', Carbon::parse('today')->day);
+    }
+
     public function scopeAttendOnDate($query, $date)
     {
         return $query->select('first_name', 'last_name')
