@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "nexmo/laravel": "^2.2",
+        "ocramius/package-versions": "^1.4",
         "twilio/sdk": "^5.27"
     },
     "require-dev": {
