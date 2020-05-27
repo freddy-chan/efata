@@ -6,6 +6,7 @@ use App\Group;
 use App\SubGroup;
 use Carbon\Carbon;
 use Log;
+use DB;
 use App\Account;
 use App\Transaction;
 use Illuminate\Http\Request;
@@ -78,46 +79,117 @@ class TransactionController extends Controller
         return $this->setFromToAccountGroupName($transactions, $orgId);
     }
 
+    public function getDateHeader($fromDate, $toDate)
+    {
+        do {
+            $dateHeader[] = $fromDate->startOfWeek()->format('d/m/Y') . ' - ' .
+                $fromDate->endOfWeek()->format('d/m/Y');
+            $fromDate = $fromDate->addDays(1);
+        } while($fromDate->lessThan($toDate));
+
+        return $dateHeader;
+    }
+
+    public function getDateRange($fromDate, $toDate)
+    {
+        do {
+            $dateRange[] = $fromDate->startOfWeek()->format('Y-m-d');
+            $dateRange[] = $fromDate->endOfWeek()->format('Y-m-d');
+            $fromDate = $fromDate->addDays(1);
+        } while($fromDate->lessThan($toDate));
+
+        return $dateRange;
+    }
+
+    public function getHeader($count)
+    {
+        for($i=0;$i<$count;$i+=2) {
+            $header[] = 'debit';
+            $header[] = 'credit';
+        }
+
+        return $header;
+    }
+
+    public function getGroupTotalBasedDateRange($fromDate, $toDate, $groupId, $type = Transaction::INCOME)
+    {
+        $transaction = Transaction::select(DB::raw("sum(amount) as total"))
+            ->whereBetween('transactionDate', [$fromDate, $toDate])
+            ->where('type', $type)
+            ->where('groupId', $groupId)
+            ->groupBy('groupId')
+            ->first();
+
+        if($transaction)
+            return (int) $transaction->total;
+
+        return 0;
+    }
+
+    public function getSubGroupTotalBasedDateRange($fromDate, $toDate, $groupId, $type = Transaction::INCOME)
+    {
+        $transaction = Transaction::select(DB::raw("sum(amount) as total"))
+            ->whereBetween('transactionDate', [$fromDate, $toDate])
+            ->where('type', $type)
+            ->where('subGroupId', $groupId)
+            ->groupBy('subGroupId')
+            ->first();
+
+        if($transaction)
+            return (int) $transaction->total;
+
+        return 0;
+    }
+
     public function showWeekly(Request $request, $orgId)
     {
         $fromDate = new Carbon($request->get('fromDate'));
         $toDate = new Carbon($request->get('toDate'));
         $arr = [];
         $subGroups = SubGroup::where('orgId', $orgId)->get();
-//        dd($fromDate);
-        foreach ($subGroups as $subGroup) {
-            $item['description'] = $subGroup->name;
-            $count = 1;
+        $groups = Group::where('orgId', $orgId)->get();
+        $dateRanges = $this->getDateRange(new Carbon($request->get('fromDate')), new Carbon($request->get('toDate')));
+        $countGroup = 0;
 
-            do {
-//                dump( $fromDate->startOfWeek()->toDateString());
-                $transactions = Transaction::select('groupId', 'subGroupId', 'type', 'amount')
-                    ->whereBetween('transactionDate', [
-                        $fromDate->startOfWeek()->format('Y-m-d'),
-                        $fromDate->endOfWeek()->format('Y-m-d')
-                    ])
-                    ->where('subGroupId', $subGroup->id)
-                    ->orderBy('groupId')
-                    ->get();
+        $arr['fromDate'] = $fromDate->startOfWeek()->format('d/m/Y');
+        $arr['toDate'] = $toDate->endOfWeek()->format('d/m/Y');
+        $arr['dateHeader'] = $this->getDateHeader(new Carbon($request->get('fromDate')), new Carbon($request->get('toDate')));
+        $arr['header'] = $this->getHeader(count($dateRanges));
+        $arr['columnCount'] = count($dateRanges) + 2;
 
-                $item['debit' . $count] = 0;
-                $item['credit' . $count] = 0;
+        foreach($groups as $group) {
+            $arr['groups'][$countGroup]['name'] = $group->name;
+            $arr['groups'][$countGroup]['id'] = $group->id;
+            $countSubGroup = 0;
+            $groupTotal = 0;
 
-                foreach ($transactions as $transaction) {
-//                    echo $count . ' ';
-                    if ($transaction->type == 'income')
-                        $item['debit' . $count] += $transaction->amount;
-                    else
-                        $item['credit' . $count] += $transaction->amount;
+            foreach($subGroups as $subGroup) {
+                $subGroupTotal = 0;
+                if($subGroup->group->id == $group->id) {
+                    $arr['groups'][$countGroup]['subgroups'][$countSubGroup]['name'] = $subGroup->name;
+                    for($i=0;$i<count($dateRanges);$i+=2) {
+                        $debit = $this->getSubGroupTotalBasedDateRange($dateRanges[$i], $dateRanges[$i + 1], $subGroup->id);
+                        $credit = $this->getSubGroupTotalBasedDateRange($dateRanges[$i], $dateRanges[$i + 1], $subGroup->id, Transaction::EXPENSES);
+                        $arr['groups'][$countGroup]['subgroups'][$countSubGroup]['totals'][] = $debit;
+                        $arr['groups'][$countGroup]['subgroups'][$countSubGroup]['totals'][] = $credit;
+                        $subGroupTotal += ($debit - $credit);
+                    }
+                    $arr['groups'][$countGroup]['subgroups'][$countSubGroup]['total'] = $subGroupTotal;
+                    $countSubGroup++;
                 }
-                $count++;
-                $fromDate = $fromDate->addDays(1);
-            } while ($fromDate->diffInDays($toDate, false) > 0);
-            $arr['items'][] = $item;
-//            $item = [];
-            $fromDate = $fromDate->subDay(7*($count-1));
+            }
+
+            for($i=0;$i<count($dateRanges);$i+=2) {
+                $debit = $this->getGroupTotalBasedDateRange($dateRanges[$i], $dateRanges[$i+1], $group->id);
+                $credit = $this->getGroupTotalBasedDateRange($dateRanges[$i], $dateRanges[$i+1], $group->id, Transaction::EXPENSES);
+                $arr['groups'][$countGroup]['totals'][] = $debit;
+                $arr['groups'][$countGroup]['totals'][] = $credit;
+                $groupTotal += ($debit - $credit);
+            }
+
+            $arr['groups'][$countGroup]['total'] = $groupTotal;
+            $countGroup++;
         }
-//        dd("stop");
         return $arr;
     }
 
