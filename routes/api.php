@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/sendReminder', 'API\ReminderController@serviceSchedule');
+
 Route::get('/groups/{id}', 'API\GroupController@show');
 Route::post('/group', 'API\GroupController@store');
 Route::delete('/group/{id}', 'API\GroupController@destroy');
