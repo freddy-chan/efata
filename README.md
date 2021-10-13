@@ -9,8 +9,8 @@
 This project is started by using [GBI Rock Tampa](http://rockministryusa.org/) as a model.
 
 # Software Specification
-* PHP 7.2
-* Laravel 5.8
+* PHP 7.3
+* Laravel 7
 
 # Installation
 * composer install
